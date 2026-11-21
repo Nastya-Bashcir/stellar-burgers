@@ -7,6 +7,7 @@ interface FeedState {
   total: number;
   totalToday: number;
   isLoading: boolean;
+  error: string | null;
 }
 
 const initialState: FeedState = {
@@ -14,6 +15,7 @@ const initialState: FeedState = {
   total: 0,
   totalToday: 0,
   isLoading: false,
+  error: null,
 };
 
 export const fetchFeeds = createAsyncThunk('feed/fetchFeeds', async () => {

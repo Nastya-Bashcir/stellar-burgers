@@ -12,7 +12,7 @@ export const ProfileMenu = (): React.JSX.Element => {
   const handleLogout = (): void => {
     void dispatch(logoutUser())
       .unwrap()
-      .then(() => { navigate('/', { replace: true }); })
+      .then(() => { void navigate('/login', { replace: true }); })
       .catch((error: unknown) => {
         const message = error instanceof Error ? error.message : 'Ошибка выхода';
         console.error('Ошибка выхода:', message);

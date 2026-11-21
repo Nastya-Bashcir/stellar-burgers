@@ -37,7 +37,7 @@ export const AppHeader = (): React.JSX.Element => {
           <Logo className="" />
         </Link>
         <Link
-          to={userName ? '/profile' : '/login'}
+          to="/profile"
           style={linkStyle(location.pathname.startsWith('/profile'))}
         >
           <ProfileIcon type={location.pathname.startsWith('/profile') ? 'primary' : 'secondary'} />

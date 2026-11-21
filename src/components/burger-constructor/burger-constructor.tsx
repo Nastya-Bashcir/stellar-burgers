@@ -31,12 +31,18 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
       ...constructorItems.ingredients.map((item) => item._id),
     ];
 
-    void dispatch(orderBurger(ingredients)).then((result) => {
+    void dispatch(orderBurger(ingredients))
+    .then((result) => {
       if (result.payload) {
         void dispatch(fetchFeeds());
       }
+    })
+    .catch((error: unknown) => {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка оформления заказа';
+      console.error('Ошибка оформления заказа:', message);
     });
-  };
+};
 
   const closeOrderModal = (): void => {
     dispatch(resetOrder());

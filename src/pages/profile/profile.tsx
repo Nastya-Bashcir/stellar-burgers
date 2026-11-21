@@ -15,12 +15,12 @@ export const Profile = (): React.JSX.Element => {
   });
 
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
+    setFormValue({
       name: user?.name ?? '',
       email: user?.email ?? '',
-    }));
-  }, [user]);
+      password: '',
+    });
+  } , [user]);
 
   const isFormChanged =
     formValue.name !== user?.name ||

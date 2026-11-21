@@ -24,11 +24,16 @@ import { fetchIngredients } from '../../services/ingredientsSlice';
 import { getUser, setAuthChecked } from '../../services/userSlice';
 import { getCookie } from '../../utils/cookie';
 import type { RootState, AppDispatch } from '../../services/store';
+import type { Location } from 'react-router-dom';
 
 import type { AppContentProps } from './type';
 
 import '../../index.css';
 import styles from './app.module.css';
+
+type LocationState = {
+  background?: Location;
+};
 
 const App = (): React.JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,15 +42,15 @@ const App = (): React.JSX.Element => {
   );
 
   useEffect(() => {
-  void dispatch(fetchIngredients());
+    void dispatch(fetchIngredients());
 
-  const accessToken = getCookie('accessToken');
-  if (accessToken) {
-    void dispatch(getUser());
-  } else {
-    dispatch(setAuthChecked());
-  }
-}, [dispatch]);
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
+      void dispatch(getUser());
+    } else {
+      dispatch(setAuthChecked());
+    }
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
@@ -93,15 +98,31 @@ const AppContent = ({
 const RouteComponent = (): React.JSX.Element => {
   const location = useLocation();
   const navigate = useNavigate();
-  const background = location.state?.background ?? null;
+  
+  const state = location.state as LocationState | null;
+  const background = state?.background ?? null;
 
-  const onClose = () => navigate(-1);
+  const onClose = (): void => {  
+    void navigate(-1);
+  }; 
 
   return (
     <>
-      <Routes location={background || location}>
+      <Routes location={background ?? location}>
         <Route path="/" element={<ConstructorPage />} />
         <Route path="/feed" element={<Feed />} />
+        
+        <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route path="/feed/:number" element={<OrderInfo />} />
+
+        <Route
+          path="/profile/orders/:number"
+          element={
+             <ProtectedRoute>
+                <OrderInfo />
+             </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/login"
@@ -161,7 +182,7 @@ const RouteComponent = (): React.JSX.Element => {
           <Route
             path="/feed/:number"
             element={
-              <Modal title="История заказа" onClose={onClose}>
+              <Modal title="" onClose={onClose}>
                 <OrderInfo />
               </Modal>
             }
@@ -169,7 +190,7 @@ const RouteComponent = (): React.JSX.Element => {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal title="Детали ингредиента" onClose={onClose}>
+              <Modal title="" onClose={onClose}>
                 <IngredientDetails />
               </Modal>
             }
@@ -178,7 +199,7 @@ const RouteComponent = (): React.JSX.Element => {
             path="/profile/orders/:number"
             element={
               <ProtectedRoute>
-                <Modal title="История заказа" onClose={onClose}>
+                <Modal title="" onClose={onClose}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>
