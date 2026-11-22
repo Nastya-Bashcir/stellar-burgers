@@ -1,11 +1,12 @@
 import { Preloader, OrderInfoUI } from '@ui';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
+import { getOrderByNumberApi } from '../../utils/burger-api';
+
 import type { RootState } from '../../services/store';
 import type { TOrder, TIngredient } from '@utils-types';
-import { getOrderByNumberApi } from '../../utils/burger-api';
-import { useState, useEffect } from 'react';
 
 export const OrderInfo = (): React.JSX.Element => {
   const { number } = useParams<{ number: string }>();

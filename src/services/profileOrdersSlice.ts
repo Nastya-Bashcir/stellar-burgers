@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { getOrdersApi } from '../utils/burger-api';
+
 import type { TOrder } from '../utils/types';
 
-interface ProfileOrdersState {
+type ProfileOrdersState = {
   orders: TOrder[];
   isLoading: boolean;
-}
+};
 
 const initialState: ProfileOrdersState = {
   orders: [],

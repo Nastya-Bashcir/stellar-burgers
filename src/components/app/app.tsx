@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   AppHeader,
   Modal,
@@ -19,16 +17,21 @@ import {
   NotFound404,
 } from '@pages';
 import { Preloader } from '@ui';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+
 import { fetchIngredients } from '../../services/ingredientsSlice';
+import { selectIngredientsSlice } from '../../services/selectors';
 import { getUser, setAuthChecked } from '../../services/userSlice';
 import { getCookie } from '../../utils/cookie';
-import type { RootState, AppDispatch } from '../../services/store';
+
+import type { AppDispatch } from '../../services/store';
+import type { AppContentProps } from './type';
 import type { Location } from 'react-router-dom';
 
-import type { AppContentProps } from './type';
-
 import '../../index.css';
+
 import styles from './app.module.css';
 
 type LocationState = {
@@ -37,9 +40,7 @@ type LocationState = {
 
 const App = (): React.JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
-  const { ingredients, isLoading, error } = useSelector(
-    (state: RootState) => state.ingredients
-  );
+  const { ingredients, isLoading, error } = useSelector(selectIngredientsSlice);
 
   useEffect(() => {
     void dispatch(fetchIngredients());
@@ -55,11 +56,7 @@ const App = (): React.JSX.Element => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <AppContent
-        ingredients={ingredients}
-        isLoading={isLoading}
-        error={error}
-      />
+      <AppContent ingredients={ingredients} isLoading={isLoading} error={error} />
     </div>
   );
 };
@@ -86,9 +83,7 @@ const AppContent = ({
 
   if (!ingredients.length) {
     return (
-      <p className={`${styles.message} text text_type_main-medium`}>
-        Нет ингредиентов
-      </p>
+      <p className={`${styles.message} text text_type_main-medium`}>Нет ингредиентов</p>
     );
   }
 
@@ -98,29 +93,29 @@ const AppContent = ({
 const RouteComponent = (): React.JSX.Element => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const state = location.state as LocationState | null;
   const background = state?.background ?? null;
 
-  const onClose = (): void => {  
+  const onClose = (): void => {
     void navigate(-1);
-  }; 
+  };
 
   return (
     <>
       <Routes location={background ?? location}>
         <Route path="/" element={<ConstructorPage />} />
         <Route path="/feed" element={<Feed />} />
-        
+
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
         <Route path="/feed/:number" element={<OrderInfo />} />
 
         <Route
           path="/profile/orders/:number"
           element={
-             <ProtectedRoute>
-                <OrderInfo />
-             </ProtectedRoute>
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
           }
         />
 

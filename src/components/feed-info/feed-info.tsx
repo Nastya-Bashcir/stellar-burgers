@@ -1,7 +1,9 @@
 import { FeedInfoUI } from '@ui';
-import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
-import type { RootState } from '../../services/store';
+import { useSelector } from 'react-redux';
+
+import { selectFeedSlice } from '../../services/selectors';
+
 import type { TOrder } from '@utils-types';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
@@ -11,19 +13,18 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
     .slice(0, 20);
 
 export const FeedInfo = (): React.JSX.Element => {
-  const feed = useSelector((state: RootState) => state.feed);
+  const feed = useSelector(selectFeedSlice);
   const orders = feed.orders;
 
-  const { readyOrders, pendingOrders } = useMemo(() => ({
-    readyOrders: getOrders(orders, 'done'),
-    pendingOrders: getOrders(orders, 'pending'),
-  }), [orders]);
+  const { readyOrders, pendingOrders } = useMemo(
+    () => ({
+      readyOrders: getOrders(orders, 'done'),
+      pendingOrders: getOrders(orders, 'pending'),
+    }),
+    [orders]
+  );
 
   return (
-    <FeedInfoUI
-      readyOrders={readyOrders}
-      pendingOrders={pendingOrders}
-      feed={feed}
-    />
+    <FeedInfoUI readyOrders={readyOrders} pendingOrders={pendingOrders} feed={feed} />
   );
 };

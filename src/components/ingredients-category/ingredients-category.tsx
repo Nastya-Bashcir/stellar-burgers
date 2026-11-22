@@ -1,8 +1,8 @@
 import { IngredientsCategoryUI } from '@ui';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../../services/store';
 
+import type { RootState } from '../../services/store';
 import type { TIngredientsCategoryProps } from './type';
 import type { TIngredient } from '@utils-types';
 

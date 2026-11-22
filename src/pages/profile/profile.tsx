@@ -1,11 +1,14 @@
 import { ProfileUI } from '@ui-pages';
 import { type SyntheticEvent, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import type { RootState, AppDispatch } from '../../services/store';
+
+import { selectUserSlice } from '../../services/selectors';
 import { updateUser } from '../../services/userSlice';
 
+import type { AppDispatch } from '../../services/store';
+
 export const Profile = (): React.JSX.Element => {
-  const user = useSelector((state: RootState) => state.user.user);
+  const { user } = useSelector(selectUserSlice);
   const dispatch = useDispatch<AppDispatch>();
 
   const [formValue, setFormValue] = useState({
@@ -20,17 +23,17 @@ export const Profile = (): React.JSX.Element => {
       email: user?.email ?? '',
       password: '',
     });
-  } , [user]);
+  }, [user]);
 
   const isFormChanged =
     formValue.name !== user?.name ||
-  formValue.email !== user?.email ||
-  !!formValue.password;
+    formValue.email !== user?.email ||
+    !!formValue.password;
 
   const handleSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
     const updateData: { name?: string; email?: string; password?: string } = {};
-    
+
     if (formValue.name !== user?.name) updateData.name = formValue.name;
     if (formValue.email !== user?.email) updateData.email = formValue.email;
     if (formValue.password) updateData.password = formValue.password;

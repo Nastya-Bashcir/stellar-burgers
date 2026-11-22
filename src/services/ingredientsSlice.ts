@@ -1,13 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { SerializedError } from '@reduxjs/toolkit';
-import { getIngredientsApi } from '../utils/burger-api';
-import type { TIngredient } from '../utils/types';
 
-interface IngredientsState {
+import { getIngredientsApi } from '../utils/burger-api';
+
+import type { TIngredient } from '../utils/types';
+import type { SerializedError } from '@reduxjs/toolkit';
+
+type IngredientsState = {
   ingredients: TIngredient[];
   isLoading: boolean;
   error: SerializedError | null;
-}
+};
 
 const initialState: IngredientsState = {
   ingredients: [],

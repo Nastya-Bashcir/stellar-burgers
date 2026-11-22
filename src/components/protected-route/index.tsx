@@ -1,7 +1,9 @@
-import type { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import type { RootState } from '../../services/store';
+
+import { selectUserSlice } from '../../services/selectors';
+
+import type { ReactNode } from 'react';
 
 type ProtectedRouteProps = {
   onlyUnAuth?: boolean;
@@ -13,15 +15,16 @@ export const ProtectedRoute = ({
   children,
 }: ProtectedRouteProps): React.JSX.Element => {
   const location = useLocation();
-  const isAuthChecked = useSelector((state: RootState) => state.user.isAuthChecked);
-  const user = useSelector((state: RootState) => state.user.user);
+  const { isAuthChecked, user } = useSelector(selectUserSlice);
 
   if (!isAuthChecked) {
     return <div>Загрузка...</div>;
   }
 
   if (onlyUnAuth && user) {
-    const from = (location.state as { from?: { pathname: string } })?.from ?? { pathname: '/' };
+    const from = (location.state as { from?: { pathname: string } })?.from ?? {
+      pathname: '/',
+    };
     return <Navigate to={from.pathname} replace />;
   }
 

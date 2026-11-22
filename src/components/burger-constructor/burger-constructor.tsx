@@ -2,26 +2,32 @@ import { BurgerConstructorUI } from '@ui';
 import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import type { RootState, AppDispatch } from '../../services/store';
-import { resetConstructor } from '../../services/constructorSlice';
-import { orderBurger, resetOrder } from '../../services/orderSlice';
-import { fetchFeeds } from '../../services/feedSlice';
 
+import { resetConstructor } from '../../services/constructorSlice';
+import { fetchFeeds } from '../../services/feedSlice';
+import { orderBurger, resetOrder } from '../../services/orderSlice';
+import {
+  selectConstructorSlice,
+  selectUserSlice,
+  selectOrderSlice,
+} from '../../services/selectors';
+
+import type { AppDispatch } from '../../services/store';
 import type { TConstructorIngredient } from '@utils-types';
 
 export const BurgerConstructor = (): React.JSX.Element | null => {
-  const constructorItems = useSelector((state: RootState) => state.burgerConstructor);
-  const user = useSelector((state: RootState) => state.user.user);
-  const { orderRequest, orderModalData } = useSelector((state: RootState) => state.order);
-  
+  const constructorItems = useSelector(selectConstructorSlice);
+  const user = useSelector(selectUserSlice);
+  const { orderRequest, orderModalData } = useSelector(selectOrderSlice);
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const onOrderClick = (): void => {
     if (!constructorItems.bun || orderRequest) return;
-    
+
     if (!user) {
-      navigate('/login', { state: { from: { pathname: '/' } } });
+      void navigate('/login', { state: { from: { pathname: '/' } } });
       return;
     }
 
@@ -32,17 +38,16 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
     ];
 
     void dispatch(orderBurger(ingredients))
-    .then((result) => {
-      if (result.payload) {
+      .unwrap()
+      .then(() => {
         void dispatch(fetchFeeds());
-      }
-    })
-    .catch((error: unknown) => {
-      const message =
-        error instanceof Error ? error.message : 'Ошибка оформления заказа';
-      console.error('Ошибка оформления заказа:', message);
-    });
-};
+      })
+      .catch((error: unknown) => {
+        const message =
+          error instanceof Error ? error.message : 'Ошибка оформления заказа';
+        console.error('Ошибка оформления заказа:', message);
+      });
+  };
 
   const closeOrderModal = (): void => {
     dispatch(resetOrder());

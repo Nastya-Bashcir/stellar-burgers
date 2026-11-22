@@ -1,6 +1,7 @@
 import { BurgerIngredients, BurgerConstructor } from '@components';
 import { Preloader } from '@ui';
 import { useSelector } from 'react-redux';
+
 import type { RootState } from '../../services/store';
 
 import styles from './constructor-page.module.css';
@@ -14,9 +15,7 @@ export const ConstructorPage = (): React.JSX.Element => {
 
   if (error) {
     return (
-      <p className="text text_type_main-medium">
-        Не удалось загрузить ингредиенты
-      </p>
+      <p className="text text_type_main-medium">Не удалось загрузить ингредиенты</p>
     );
   }
 

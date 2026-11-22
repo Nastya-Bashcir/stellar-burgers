@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { orderBurgerApi } from '../utils/burger-api';
+
 import type { TOrder } from '../utils/types';
 
-interface OrderState {
+type OrderState = {
   orderModalData: TOrder | null;
   orderRequest: boolean;
   orderFailed: boolean;
-}
+};
 
 const initialState: OrderState = {
   orderModalData: null,

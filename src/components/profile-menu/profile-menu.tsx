@@ -1,8 +1,10 @@
 import { ProfileMenuUI } from '@ui';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import type { AppDispatch } from '../../services/store';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { logoutUser } from '../../services/userSlice';
+
+import type { AppDispatch } from '../../services/store';
 
 export const ProfileMenu = (): React.JSX.Element => {
   const { pathname } = useLocation();
@@ -12,7 +14,9 @@ export const ProfileMenu = (): React.JSX.Element => {
   const handleLogout = (): void => {
     void dispatch(logoutUser())
       .unwrap()
-      .then(() => { void navigate('/login', { replace: true }); })
+      .then(() => {
+        void navigate('/login', { replace: true });
+      })
       .catch((error: unknown) => {
         const message = error instanceof Error ? error.message : 'Ошибка выхода';
         console.error('Ошибка выхода:', message);

@@ -1,9 +1,9 @@
 import { OrderCardUI } from '@ui';
 import { memo, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../../services/store';
+import { useLocation } from 'react-router-dom';
 
+import type { RootState } from '../../services/store';
 import type { OrderCardProps } from './type';
 import type { TIngredient } from '@utils-types';
 
@@ -13,7 +13,7 @@ export const OrderCard = memo(function OrderCard({
   order,
 }: OrderCardProps): React.JSX.Element | null {
   const location = useLocation();
-  
+
   const ingredients = useSelector((state: RootState) => state.ingredients.ingredients);
 
   const orderInfo = useMemo(() => {
