@@ -1,8 +1,8 @@
 import { Preloader, OrderInfoUI } from '@ui';
 import { useMemo, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { useSelector } from '../../services/store';
 import { getOrderByNumberApi } from '../../utils/burger-api';
 
 import type { RootState } from '../../services/store';

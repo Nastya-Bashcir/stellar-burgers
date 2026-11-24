@@ -1,8 +1,8 @@
 import { FeedInfoUI } from '@ui';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { selectFeedSlice } from '../../services/selectors';
+import { useSelector } from '../../services/store';
 
 import type { TOrder } from '@utils-types';
 

@@ -4,8 +4,9 @@ import {
   Logo,
   ProfileIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+
+import { useSelector } from '../../services/store';
 
 import type { RootState } from '../../services/store';
 

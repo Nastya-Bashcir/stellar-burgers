@@ -1,18 +1,16 @@
 import { RegisterUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { selectUserSlice } from '../../services/selectors';
+import { useSelector, useDispatch } from '../../services/store';
 import { registerUser } from '../../services/userSlice';
-
-import type { AppDispatch } from '../../services/store';
 
 export const Register = (): React.JSX.Element => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { error } = useSelector(selectUserSlice);
@@ -24,8 +22,8 @@ export const Register = (): React.JSX.Element => {
       .then(() => {
         void navigate('/', { replace: true });
       })
-      .catch((error: unknown) => {
-        const message = error instanceof Error ? error.message : 'Ошибка регистрации';
+      .catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : 'Ошибка регистрации';
         console.error('Ошибка регистрации:', message);
       });
   };

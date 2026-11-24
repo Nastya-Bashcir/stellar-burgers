@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { selectUserSlice } from '../../services/selectors';
+import { useSelector } from '../../services/store';
 
 import type { ReactNode } from 'react';
 

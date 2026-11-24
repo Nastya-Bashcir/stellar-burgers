@@ -1,17 +1,15 @@
 import { LoginUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { selectUserSlice } from '../../services/selectors';
+import { useSelector, useDispatch } from '../../services/store';
 import { loginUser } from '../../services/userSlice';
-
-import type { AppDispatch } from '../../services/store';
 
 export const Login = (): React.JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { error } = useSelector(selectUserSlice);

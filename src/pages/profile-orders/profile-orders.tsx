@@ -1,14 +1,14 @@
 import { ProfileOrdersUI } from '@ui-pages';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchUserOrders } from '../../services/profileOrdersSlice';
+import { useDispatch, useSelector } from '../../services/store';
 
-import type { RootState, AppDispatch } from '../../services/store';
+import type { RootState } from '../../services/store';
 
 export const ProfileOrders = (): React.JSX.Element => {
   const orders = useSelector((state: RootState) => state.profileOrders.orders);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     void dispatch(fetchUserOrders());

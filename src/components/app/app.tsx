@@ -18,15 +18,14 @@ import {
 } from '@pages';
 import { Preloader } from '@ui';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { fetchIngredients } from '../../services/ingredientsSlice';
 import { selectIngredientsSlice } from '../../services/selectors';
+import { useDispatch, useSelector } from '../../services/store';
 import { getUser, setAuthChecked } from '../../services/userSlice';
 import { getCookie } from '../../utils/cookie';
 
-import type { AppDispatch } from '../../services/store';
 import type { AppContentProps } from './type';
 import type { Location } from 'react-router-dom';
 
@@ -39,7 +38,7 @@ type LocationState = {
 };
 
 const App = (): React.JSX.Element => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const { ingredients, isLoading, error } = useSelector(selectIngredientsSlice);
 
   useEffect(() => {

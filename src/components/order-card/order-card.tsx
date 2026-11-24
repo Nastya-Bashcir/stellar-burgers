@@ -1,7 +1,8 @@
 import { OrderCardUI } from '@ui';
 import { memo, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+
+import { useSelector } from '../../services/store';
 
 import type { RootState } from '../../services/store';
 import type { OrderCardProps } from './type';

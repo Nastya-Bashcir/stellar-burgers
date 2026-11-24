@@ -1,6 +1,7 @@
 import { BurgerIngredients, BurgerConstructor } from '@components';
 import { Preloader } from '@ui';
-import { useSelector } from 'react-redux';
+
+import { useSelector } from '../../services/store';
 
 import type { RootState } from '../../services/store';
 
